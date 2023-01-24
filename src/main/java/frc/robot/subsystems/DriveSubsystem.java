@@ -59,11 +59,18 @@ public class DriveSubsystem extends SubsystemBase {
           // Front left
           new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
           // Front right
-          new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+          new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
           // Back left
-          new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+          new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
           // Back right
-          new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
+          new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
+          /*
+           * //Last year's kinematics (just a reference)
+           *new Translation2d(Constants.wheelBase / 2.0, Constants.wheelBase / 2.0),
+          new Translation2d(Constants.wheelBase / 2.0, -Constants.wheelBase / 2.0),
+          new Translation2d(-Constants.wheelBase / 2.0, Constants.wheelBase / 2.0),
+          new Translation2d(-Constants.wheelBase / 2.0, -Constants.wheelBase / 2.0)
+           */
   );
 
   // By default we use a Pigeon for our gyroscope. But if you use another gyroscope, like a NavX, you can change this.
@@ -72,10 +79,10 @@ public class DriveSubsystem extends SubsystemBase {
   //private final AHRS mNavX = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP //will change to pigeon 2.0 when built
   
   // These are our modules. We initialize them in the constructor.
-  private final SwerveModule mLeftFront;
-  private final SwerveModule mRightFront;
-  private final SwerveModule mLeftRear;
-  private final SwerveModule mRightRear;
+  private final SwerveModule flm;
+  private final SwerveModule frm;
+  private final SwerveModule rlm;
+  private final SwerveModule rrm;
   private final ShuffleboardTab mTab;
 
   private ChassisSpeeds mChassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
@@ -84,7 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     mTab = Shuffleboard.getTab("Drivetrain");
 
-    mLeftFront = Mk4SwerveModuleHelper.createFalcon500(
+    flm = Mk4SwerveModuleHelper.createFalcon500(
             // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
             mTab.getLayout("Front Left Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
@@ -101,7 +108,7 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.fleo
     );
 
-    mRightFront = Mk4SwerveModuleHelper.createFalcon500(
+    frm = Mk4SwerveModuleHelper.createFalcon500(
         mTab.getLayout("Front Right Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
                     .withPosition(2, 0),
@@ -112,7 +119,7 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.freo
     );
 
-    mLeftRear = Mk4SwerveModuleHelper.createFalcon500(
+    rlm = Mk4SwerveModuleHelper.createFalcon500(
         mTab.getLayout("Rear Left Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
                     .withPosition(4, 0),
@@ -123,7 +130,7 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.rleo
     );
 
-    mRightRear = Mk4SwerveModuleHelper.createFalcon500(
+    rrm = Mk4SwerveModuleHelper.createFalcon500(
         mTab.getLayout("Rear Right Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
                     .withPosition(6, 0),
@@ -191,9 +198,16 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Angle", gyro.getAngle()); //will change to pigeon 2.0 when built
     //m_odometry.update(Rotation2d.fromDegrees(gyro.getAngle()), states);
 
-    mLeftFront.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
-    mRightFront.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
-    mLeftRear.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
-    mRightRear.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+    flm.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
+    frm.set(-states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
+    rlm.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
+    rrm.set(-states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+    /*
+     * //last years module states (just a reference)
+     *flm.set(states[0].speedMetersPerSecond / Constants.maxVelocity * Constants.maxVoltage, states[0].angle.getRadians());
+      frm.set(-states[1].speedMetersPerSecond / Constants.maxVelocity * Constants.maxVoltage, states[1].angle.getRadians());
+      rlm.set(states[2].speedMetersPerSecond / Constants.maxVelocity * Constants.maxVoltage, states[2].angle.getRadians());
+      rrm.set(-states[3].speedMetersPerSecond / Constants.maxVelocity * Constants.maxVoltage, states[3].angle.getRadians());
+     */
   }
 }
