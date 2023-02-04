@@ -122,24 +122,25 @@ public final class Constants {
 
 //public static final int CANDLE = 19;
 
-public static final int MAX_COUNTS_PER_REV = 42;
-public static final double EPSILON = 0.0001;
+  public static final int MAX_COUNTS_PER_REV = 42;
+  public static final double EPSILON = 0.0001;
 
-// The left-to-right distance between the drivetrain wheels. Should be measured from center to center.
-public static final double swerveWidth = 0.635; // Measure and set trackwidth
-// The front-to-back distance between the drivetrain wheels. Should be measured from center to center.
-public static final double swerveLength = 0.7366; // Measure and set wheelbase
+  // The left-to-right distance between the drivetrain wheels. Should be measured from center to center.
+  public static final double swerveWidth = 0.635; // Measure and set trackwidth
+  // The front-to-back distance between the drivetrain wheels. Should be measured from center to center.
+  public static final double swerveLength = 0.7366; // Measure and set wheelbase
 
-/**
-   * The maximum angular velocity of the robot in radians per second.
-   * <p>
-   * This is a measure of how fast the robot can rotate in place.
-   */
-  // Here we calculate the theoretical maximum angular velocity. You can also replace this with a measured amount.
-public static double maxAngularVelocity = maxVelocity / Math.hypot(swerveWidth / 2.0, swerveLength / 2.0);
+  /**
+     * The maximum angular velocity of the robot in radians per second.
+     * <p>
+     * This is a measure of how fast the robot can rotate in place.
+     */
+    // Here we calculate the theoretical maximum angular velocity. You can also replace this with a measured amount.
+  public static double maxAngularVelocity = maxVelocity / Math.hypot(swerveWidth / 2.0, swerveLength / 2.0);
 
-public static final TrapezoidProfile.Constraints rotationConstraints = new TrapezoidProfile.Constraints(maxAngularVelocity, maxAngularVelocity);
+  public static final TrapezoidProfile.Constraints rotationConstraints = new TrapezoidProfile.Constraints(maxAngularVelocity, maxAngularVelocity);
 
+  
 
 
 }
