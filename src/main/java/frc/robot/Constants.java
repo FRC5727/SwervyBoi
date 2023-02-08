@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -43,6 +44,14 @@ public final class Constants {
   public static final int frePort = 1; //Front Right Encoder Port
   public static final int rrePort = 2; //Rear Right Encoder Port
   public static final int rlePort = 3; //Rear Left Encoder Port
+
+  public static final int backOne = 0; //big
+  public static final int backTwo = 0; //big 
+  public static final int frontOne = 0; //small
+  public static final int frontTwo = 0; //small 
+
+  public static final int baePort = 0;
+  public static final int saePort = 0;
 
   // public static final double fleo = Math.toRadians(-180.615); //Front Left Encoder Offset
   // public static final double freo = Math.toRadians(-123.223); //Front Right Encoder Offset
