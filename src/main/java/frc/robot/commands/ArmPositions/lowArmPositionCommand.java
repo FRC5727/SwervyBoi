@@ -4,29 +4,27 @@
 
 package frc.robot.commands.ArmPositions;
 
+import com.ctre.phoenix.sensors.CANCoder;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.ArmSubsystem;
 
-public class lowArmPositionCommand extends CommandBase {
+public class lowArmPositionCommand extends SequentialCommandGroup {
   /** Creates a new lowArmPositionCommand. */
-  public lowArmPositionCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+  public lowArmPositionCommand(ArmSubsystem armSubsystem) {
+    final CANCoder upperArmCanCoder = new CANCoder(0, getName());
+    final CANCoder lowerArmCanCoder = new CANCoder(0, getName());
+    addCommands(
+      new InstantCommand(() -> armSubsystem.armStartUp()),
+      new WaitCommand(0.5),
+      new InstantCommand(() -> armSubsystem.lowerArmLowPositionStepOne()),
+      new WaitCommand(5),
+      new InstantCommand(() -> armSubsystem.highArmLowPosition()),
+      new WaitCommand(5),
+      new InstantCommand(() -> armSubsystem.lowerArmLowPositionStepTwo())
+    );
   }
 }

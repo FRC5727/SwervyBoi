@@ -50,8 +50,12 @@ public final class Constants {
   public static final int frontOne = 0; //small
   public static final int frontTwo = 0; //small 
 
-  public static final int baePort = 0;
-  public static final int saePort = 0;
+  public static final int upperArmCanCoder = 0;
+  public static final int lowerArmCanCoder = 0;
+
+  
+
+  
 
   // public static final double fleo = Math.toRadians(-180.615); //Front Left Encoder Offset
   // public static final double freo = Math.toRadians(-123.223); //Front Right Encoder Offset
