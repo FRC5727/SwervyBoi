@@ -21,43 +21,43 @@ public class IntakeCommand extends CommandBase {
     addRequirements(intake);
   }
 
-  public void coneIntake(){
-    intake.setSpeed(-1.00);
-  }
-  public void cubeIntake(){
-    intake.setSpeed(1);
-  }
-  public void coneOuttake(){
-    intake.setSpeed(1);
-  }
-  public void cubeOuttake(){
-    intake.setSpeed(-1.00);
-  }
-  public void place(){
-    if(!cube) coneOuttake();
-    if(cube) cubeOuttake();
-  }
-  public void intake(){
-    if(!cube) coneIntake();
-    if(cube) cubeIntake();
-  }
-  public void setCube(){
-    cube = true;
-  }
-  public void setCone(){
-    cube = false;
-  }
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    cube = true;
-  }
+  // public void coneIntake(){
+  //   intake.setSpeed(-1.00);
+  // }
+  // public void cubeIntake(){
+  //   intake.setSpeed(1);
+  // }
+  // public void coneOuttake(){
+  //   intake.setSpeed(1);
+  // }
+  // public void cubeOuttake(){
+  //   intake.setSpeed(-1.00);
+  // }
+  // public void place(){
+  //   if(!cube) coneOuttake();
+  //   if(cube) cubeOuttake();
+  // }
+  // public void intake(){
+  //   if(!cube) coneIntake();
+  //   if(cube) cubeIntake();
+  // }
+  // public void setCube(){
+  //   cube = true;
+  // }
+  // public void setCone(){
+  //   cube = false;
+  // }
+  // // Called when the command is initially scheduled.
+  // @Override
+  // public void initialize() {
+  //   cube = true;
+  // }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Constants.dXboxController.getLeftTriggerAxis() > 0.10) place();
-    if(Constants.dXboxController.getRightTriggerAxis() > 0.10) intake();
+    // if(Constants.dXboxController.getLeftTriggerAxis() > 0.10) place();
+    // if(Constants.dXboxController.getRightTriggerAxis() > 0.10) intake();
   }
 
   // Called once the command ends or is interrupted.

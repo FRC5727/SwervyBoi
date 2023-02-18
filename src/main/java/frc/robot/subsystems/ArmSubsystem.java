@@ -11,6 +11,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
@@ -38,8 +39,10 @@ public class ArmSubsystem extends SubsystemBase {
   private double lowerArmGearRatio = 66.0 / 16.0;
   private double highArmGearRatio = 44.0 / 16.0;
 
-  private ProfiledPIDController lowPidController;
-  private ProfiledPIDController highPidController;
+  //private ProfiledPIDController lowPidController;
+  private PIDController lowPidController;
+  // private ProfiledPIDController highPidController;
+  private PIDController highPidController;
 
   private ArmFeedforward highArmFeedforward;
   private ArmFeedforward lowArmFeedforward;
@@ -48,11 +51,11 @@ public class ArmSubsystem extends SubsystemBase {
                   L_ki = 0.00,
                   L_kd = 0.00;
 
-  private double  H_kp = 0.10,
+  private double  H_kp = 0.07,
                   H_ki = 0.00,
                   H_kd = 0.00;
 
-  private double  L_ks = 0.00, 
+  private double  L_ks = 0.07, 
                   L_kg = 0.16, //0.16
                   L_kv = 8.08, //8.08
                   L_ka = 0.03; //0.03
@@ -67,7 +70,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double LowerCANcoderInitTime = 0.0;
   private double HighCANcoderInitTime = 0.0;
-
+  
+  private double low;
+  private double high;
 
   public ArmSubsystem() {
     this.lowerArmMaster = new WPI_TalonFX(9, Constants.rickBot);
@@ -78,17 +83,14 @@ public class ArmSubsystem extends SubsystemBase {
     this.highArmSlave = new WPI_TalonFX(10, Constants.rickBot);
     this.highArmCoder = new CANCoder(5, Constants.rickBot);
 
-    this.lowPidController = new ProfiledPIDController(L_kp, L_ki, L_kd, 
-    new TrapezoidProfile.Constraints(0.025, 0.025));
+    this.lowPidController = new PIDController(L_kp, L_ki, L_kd);
 
-    this.highPidController = new ProfiledPIDController(H_kp, H_ki, H_kd, 
-    new TrapezoidProfile.Constraints(0.025, 0.025));
+    this.highPidController = new PIDController(H_kp, H_ki, H_kd);
 
-    this.lowArmFeedforward = new ArmFeedforward(L_ks, L_kg, L_kv, L_ka);
-    this.highArmFeedforward = new ArmFeedforward(H_ks, H_kg, H_kv, H_ka);
+   
 
-    this.lowArmAngleOffset = 0;
-    this.highArmAngleOffset = 287.92; 
+    // this.lowArmAngleOffset = 0;
+    // this.highArmAngleOffset = 287.92; 
 
     this.lowerArmGearRatio = 0.40; //4.125
     this.highArmGearRatio = 0.10; 
@@ -101,33 +103,20 @@ public class ArmSubsystem extends SubsystemBase {
     
     
     //configArmMotor();
-    //setCurrentPosToGoal();
+    setCurrentPosToGoal();
     
     lowPidController.disableContinuousInput();
-    lowPidController.setTolerance(5, 5);
+    lowPidController.setTolerance(1); //5, 5);
     
     highPidController.disableContinuousInput();
-    highPidController.setTolerance(5, 5);
+    highPidController.setTolerance(1); //, 5);
 
     lowerArmSlave.follow(lowerArmMaster);
     highArmSlave.follow(highArmMaster);
     lowerArmSlave.setInverted(true);
     highArmSlave.setInverted(true);
-    resetToAbsolute();
   }
-  // public void configArmMotor(){
-  //   lowerArmSlave.follow(lowerArmMaster);
-  //   highArmSlave.follow(highArmMaster);
-
-  //   lowerArmMaster.configFactoryDefault();
-  //   lowerArmSlave.configFactoryDefault();
-
-  //   highArmMaster.configFactoryDefault();
-  //   highArmSlave.configFactoryDefault();
-
-  //   lowerArmSlave.setInverted(true);
-  //   highArmSlave.setInverted(true);
-  // }
+ 
   // private void waitForLowCanCoder(){
   //   /*
   //    * Wait for up to 1000 ms for a good CANcoder signal.
@@ -184,7 +173,7 @@ public class ArmSubsystem extends SubsystemBase {
   public double getHighRelativeAngle(){
     return highArmCoder.getPosition() * (360.0 / (highArmGearRatio * 4096.0));
   }
-
+//Coconut.jpeg
   // public double getHighAngle(){
   //   return getHighAbsoluteAngle() - highArmAngleOffset;
   // }
@@ -200,63 +189,57 @@ public class ArmSubsystem extends SubsystemBase {
   // }
 
   public void chassisPos(){
-    lowPidController.setGoal(0);
-    highPidController.setGoal(0);
+    low = 0;
+    high = 0;
   }
   public void intakeGroundPos(){
-    lowPidController.setGoal(36);
-    highPidController.setGoal(-29);
+    low = 36;
+    high = -29;
   }
   public void highPos(){
-    lowPidController.setGoal(54);
-    highPidController.setGoal(86);
+    low = 55;
+    high = 205;
   }
   public void midPos(){
-    lowPidController.setGoal(26);
-    highPidController.setGoal(121);
+    low = 17;
+    high = 127;
   }
   public void lowPos(){
-    lowPidController.setGoal(27);
-    highPidController.setGoal(2);
+    low = 30;
+    high = -12;
   }
 
   public double getHighGoal(){
-    return highPidController.getGoal().position;
+    return high;
   }
   public double getLowGoal(){
-    return lowPidController.getGoal().position;
+    return low;
   }
-  // public void setCurrentPosToGoal() {
-  //   lowPidController.setGoal(getLowRelativeAngle());
-  //   highPidController.setGoal(getHighRelativeAngle());
-  // }
-  public void resetToAbsolute(){
-    // waitForCanCoder();
 
-    double absolutePosition1 = Conversions.degreesToFalcon(getLowRelativeAngle(), lowerArmGearRatio);
-    lowerArmMaster.setSelectedSensorPosition(absolutePosition1);
-    lowerArmSlave.setSelectedSensorPosition(absolutePosition1);
-    
-    double absolutePosition2 = Conversions.degreesToFalcon(getHighRelativeAngle(), highArmGearRatio);
-    highArmMaster.setSelectedSensorPosition(absolutePosition2);
-    highArmSlave.setSelectedSensorPosition(absolutePosition2);
-  }
+ public void setCurrentPosToGoal(){
+    low = getLowRelativeAngle();
+    high = getHighRelativeAngle();
+ }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    highArmMaster.setVoltage( //sets the voltage according to the PID controller and armFeedForward
-    highPidController.calculate(getHighRelativeAngle(), 86)); //getHighGoal() //86
-      
+    highArmMaster.setVoltage( //sets the voltage according to the PID controller
+    highPidController.calculate(getHighRelativeAngle(), getHighGoal()));
+
+
     
-    lowerArmMaster.setVoltage(
-    lowPidController.calculate(getLowRelativeAngle(), 54)); //lowPidController.getGoal() 
-      
+     lowerArmMaster.setVoltage(
+     lowPidController.calculate(getLowRelativeAngle(), getLowGoal()));
+  
+    SmartDashboard.putNumber("Low Position: ", lowerArmCoder.getPosition());
+    SmartDashboard.putNumber("Low Position Error: ", lowPidController.getPositionError());
+    SmartDashboard.putNumber("Low Velocity Error: ",lowPidController.getVelocityError());
     SmartDashboard.putNumber("Low Relative Angle (CANcoder): ", getLowRelativeAngle());
     SmartDashboard.putNumber("High Relative Angle (CANcoder): ", getHighRelativeAngle());
 
-    SmartDashboard.putNumber("Low Arm Goal", lowPidController.getGoal().position);
-    SmartDashboard.putNumber("High Arm Goal", highPidController.getGoal().position);
+    SmartDashboard.putNumber("Low Arm Goal", getLowGoal());
+    SmartDashboard.putNumber("High Arm Goal", getHighGoal());
 
     SmartDashboard.putNumber("Low Arm Master Voltage:", lowerArmMaster.getMotorOutputVoltage());
     SmartDashboard.putNumber("Low Arm Slave Voltage:", lowerArmSlave.getMotorOutputVoltage());
@@ -264,13 +247,14 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("High Arm Master Voltage:", highArmMaster.getMotorOutputVoltage());
     SmartDashboard.putNumber("High Arm Slave Voltage:", highArmSlave.getMotorOutputVoltage());
 
+    SmartDashboard.putBoolean("thing", lowPidController.atSetpoint());
   }
 }
-      // + //PID calculates according to its current angle, and the goal angle its trying to get to
-      // highArmFeedforward.calculate(
-      // highPidController.getSetpoint().position, 
-      // highPidController.getSetpoint().velocity)
-      // // + 
-      // // lowArmFeedforward.calculate(
-      // // lowPidController.getSetpoint().position, 
-      // // lowPidController.getSetpoint().velocity)
+  // + //PID calculates according to its current angle, and the goal angle its trying to get to
+  // highArmFeedforward.calculate(
+  // highPidController.getSetpoint().position, 
+  // highPidController.getSetpoint().velocity)
+  // // + 
+  // // lowArmFeedforward.calculate(
+  // // lowPidController.getSetpoint().position, 
+  // // lowPidController.getSetpoint().velocity)

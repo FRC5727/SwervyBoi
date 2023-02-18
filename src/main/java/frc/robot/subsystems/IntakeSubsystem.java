@@ -4,23 +4,26 @@
 
 package frc.robot.subsystems;
 
+import java.io.Console;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
-  //private final CANSparkMax intakeNeo;
+  // private final CANSparkMax intakeNeo;
   
  
 
-  public IntakeSubsystem() {
-    //intakeNeo = new CANSparkMax(0, MotorType.kBrushless);
-  }
-  public void setSpeed(double speed) {
-    //intakeNeo.set(speed);
-  }
+  // public IntakeSubsystem() {
+  //   // intakeNeo = new CANSparkMax(0, MotorType.kBrushless);
+  // }
+  // // public void setSpeed(double speed) {
+  //   intakeNeo.set(speed);
+  // }
 
   @Override
   public void periodic() {
@@ -28,5 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // if(intakeNeo.getOutputCurrent() > 5){
     //   setSpeed(0);
     // }
+    // intakeNeo.set(Constants.dXboxController.getLeftTriggerAxis() * -1);
+    // intakeNeo.set(Constants.dXboxController.getRightTriggerAxis() * 1);
   }
 }

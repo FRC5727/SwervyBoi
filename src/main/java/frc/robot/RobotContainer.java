@@ -45,7 +45,7 @@ public class RobotContainer {
 
   //Commands
   private final DriveCommand driveCommand = new DriveCommand(driveSubsystem);
-  private final ArmCommand armCommand = new ArmCommand(armSubsystem);
+  //private final ArmCommand armCommand = new ArmCommand(armSubsystem);
   private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
   
   SendableChooser<Command> chooser = new SendableChooser<>();
@@ -76,13 +76,14 @@ public class RobotContainer {
   private final JoystickButton intakeGroundPosition = new JoystickButton(Constants.dXboxController, Constants.lbXboxBumper);
   private final JoystickButton stationPickupPosition = new JoystickButton(Constants.dXboxController, Constants.rbXboxBumper);
   private final JoystickButton halfSpeed = new JoystickButton(Constants.dXboxController, Constants.backXboxButton);
+  
   //Manip buttons 
   private final JoystickButton zeroGyroscope = new JoystickButton(Constants.mXboxController, Constants.backXboxButton);
 
   
 	public RobotContainer() {
     driveSubsystem.setDefaultCommand(driveCommand);
-    armSubsystem.setDefaultCommand(armCommand);
+    //armSubsystem.setDefaultCommand(armCommand);
     intakeSubsystem.setDefaultCommand(intakeCommand);
     configureBindings();
     //Auto Routines
@@ -130,11 +131,11 @@ public class RobotContainer {
     // groundButton.onTrue(new InstantCommand(() -> armSubsystem.intakeGroundPos()));
 
     // // stationPickupPosition.onTrue(new InstantCommand(() -> armCommand.stationPickupPos()));
-    new JoystickButton(Constants.dXboxController, 1).whenPressed(() -> armSubsystem.highPos(), armSubsystem); //1=A
+    new JoystickButton(Constants.dXboxController, 4).whenPressed(() -> armSubsystem.highPos(), armSubsystem); //1=A
     new JoystickButton(Constants.dXboxController, 2).whenPressed(() -> armSubsystem.midPos(), armSubsystem); //2=B
-    new JoystickButton(Constants.dXboxController, 3).whenPressed(() -> armSubsystem.lowPos(), armSubsystem); //3=X
-    new JoystickButton(Constants.dXboxController, 4).whenPressed(() -> armSubsystem.intakeGroundPos(), armSubsystem); //4=Y
-    new JoystickButton(Constants.dXboxController, 5).whenPressed(() -> armSubsystem.chassisPos(), armSubsystem); //5=LB
+    new JoystickButton(Constants.dXboxController, 1).whenPressed(() -> armSubsystem.lowPos(), armSubsystem); //3=X
+    new JoystickButton(Constants.dXboxController, 5).whenPressed(() -> armSubsystem.intakeGroundPos(), armSubsystem); //4=Y
+    new JoystickButton(Constants.dXboxController, 3).whenPressed(() -> armSubsystem.chassisPos(), armSubsystem); //5=LB
     //new JoystickButton(Constants.dXboxController, 6).whenReleased(() ->armSubsystem.intakeGroundPos(), armSubsystem); //6=RB
     //halfSpeed.onTrue(new InstantCommand(() -> driveSubsystem.toggleHalfSpeed()));
 

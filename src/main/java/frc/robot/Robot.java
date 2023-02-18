@@ -8,6 +8,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 //import com.ctre.phoenix.sensors.Pigeon2;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -196,7 +198,7 @@ public class Robot extends TimedRobot {
     }
     //driveSubsystem.unPark();
   }
-
+  private final CANSparkMax intakeNeo = new CANSparkMax(42, MotorType.kBrushless);
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
@@ -213,6 +215,8 @@ public class Robot extends TimedRobot {
       // lowerMaster.set(TalonFXControlMode.PercentOutput, Constants.mXboxController.getLeftY() * 0.25);
       // highMaster.set(TalonFXControlMode.PercentOutput, Constants.mXboxController.getRightY() * 0.25);
     //}
+    intakeNeo.set(Constants.mXboxController.getLeftY());
+    
   }
 
   @Override
