@@ -47,26 +47,13 @@ public class ArmSubsystem extends SubsystemBase {
   private ArmFeedforward highArmFeedforward;
   private ArmFeedforward lowArmFeedforward;
 
-  private double  L_kp = 0.10,
+  private double  L_kp = 0.15,
                   L_ki = 0.00,
                   L_kd = 0.00;
 
-  private double  H_kp = 0.07,
+  private double  H_kp = 0.15,
                   H_ki = 0.00,
                   H_kd = 0.00;
-
-  private double  L_ks = 0.07, 
-                  L_kg = 0.16, //0.16
-                  L_kv = 8.08, //8.08
-                  L_ka = 0.03; //0.03
-          
-  private double  H_ks = 0.00, 
-                  H_kg = 0.21, //0.21
-                  H_kv = 4.45, //4.45
-                  H_ka = 0.02; //0.02
-
-  private double L_maxVelocity, L_maxAcceleration;
-  private double H_maxVelocity, H_maxAcceleration;
 
   private double LowerCANcoderInitTime = 0.0;
   private double HighCANcoderInitTime = 0.0;
@@ -95,13 +82,6 @@ public class ArmSubsystem extends SubsystemBase {
     this.lowerArmGearRatio = 0.40; //4.125
     this.highArmGearRatio = 0.10; 
 
-    this.L_maxVelocity = 0.025; // Degrees per second
-    this.L_maxAcceleration = 0.025; // Degrees per second squared
-    
-    this.H_maxVelocity = 0.025; // Degrees per second 
-    this.H_maxAcceleration = 0.025; // Degrees per second squared
-    
-    
     //configArmMotor();
     setCurrentPosToGoal();
     
