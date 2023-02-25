@@ -8,6 +8,7 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -21,7 +22,7 @@ public class Auto extends SequentialCommandGroup {
     Constants.translationYController.reset();
     Constants.rotationController.reset();
 
-    PathPlannerTrajectory test1 = PathPlanner.loadPath("new1", 1.00, 1.00); 
+    PathPlannerTrajectory test1 = PathPlanner.loadPath("Charge2ElectricBoogaloo", 1.00, 1.00); 
     //install vendor
      
     /* 
@@ -31,18 +32,19 @@ public class Auto extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> driveSubsystem.zeroGyroscope()),
       new WaitCommand(1.0),
-      new InstantCommand(() -> driveSubsystem.resetPose(0, 0)),
+      new InstantCommand(() -> driveSubsystem.resetPose(2.12, 2.75)),
       new PPSwerveControllerCommand(
         test1,
         driveSubsystem::getPose,
         driveSubsystem.getKinematics(),
-        Constants.translationXController,
-        Constants.translationYController,
-        Constants.rotationController, //Constants.rotationController
+        new PIDController(1.0, 0.0, 0.2), //X
+        new PIDController(0.75, 0, 0.2), //Y
+        new PIDController(0.05, 0, 0.10), //Constants.rotationController
         driveSubsystem::setModuleStates,
         driveSubsystem
       ),
       new InstantCommand(() -> driveSubsystem.stop()),
+      new InstantCommand(() -> driveSubsystem.endAuto()),
       new WaitCommand(0.5)
       );
   }

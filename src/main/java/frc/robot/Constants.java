@@ -48,10 +48,10 @@ public final class Constants {
   public static final int highCoder = 4;
   public static final int lowCoder = 5;
   
-  public static final double fleo = -Math.toRadians(236.77); //Front Left Encoder Offset
-  public static final double freo = -Math.toRadians(264.90); //Front Right Encoder Offset
-  public static final double rreo = -Math.toRadians(105.99); //Rear Right Encoder Offset
-  public static final double rleo = -Math.toRadians(221.39); //Rear Left Encoder Offset -202og
+  public static final double fleo = -Math.toRadians(240.82); //Front Left Encoder Offset
+  public static final double freo = -Math.toRadians(259.36); //Front Right Encoder Offset
+  public static final double rreo = -Math.toRadians(107.66); //Rear Right Encoder Offset
+  public static final double rleo = -Math.toRadians(218.67); //Rear Left Encoder Offset -202og
 
   /*
    * public static final double fleo = Math.toRadians(-240.443); //Front Left Encoder Offset
@@ -173,9 +173,9 @@ public final class Constants {
   public static final double EPSILON = 0.0001;
 
   // The left-to-right distance between the drivetrain wheels. Should be measured from center to center.
-  public static final double swerveWidth = 0.635; // Measure and set trackwidth
+  public static final double swerveWidth = 0.4953; // Measure and set trackwidth 19.5
   // The front-to-back distance between the drivetrain wheels. Should be measured from center to center.
-  public static final double swerveLength = 0.7366; // Measure and set wheelbase
+  public static final double swerveLength = 0.5969; // Measure and set wheelbase
   public static double maxAngularVelocity = maxVelocity / Math.hypot(swerveWidth / 2.0, swerveLength / 2.0);
   public static final TrapezoidProfile.Constraints rotationConstraints = new TrapezoidProfile.Constraints(maxAngularVelocity, maxAngularVelocity);
 

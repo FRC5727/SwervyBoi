@@ -58,8 +58,8 @@ public class Robot extends TimedRobot {
 
   // private static final CANCoder lowerArm = new CANCoder(4,Constants.rickBot);
   // private static final CANCoder highArm = new CANCoder(5, Constants.rickBot);
-  // private static final TalonFX FLDMTalon = new TalonFX(Constants.fldmPort, Constants.rickBot); 
-  // private static final TalonFX FLSMTalon = new TalonFX(Constants.flsmPort, Constants.rickBot);
+  private static final TalonFX FLDMTalon = new TalonFX(Constants.fldmPort, Constants.rickBot); 
+  private static final TalonFX FLSMTalon = new TalonFX(Constants.flsmPort, Constants.rickBot);
 
   // private static final TalonFX FRDMTalon = new TalonFX(Constants.frdmPort, Constants.rickBot); 
   // private static final TalonFX FRSMTalon = new TalonFX(Constants.frsmPort, Constants.rickBot); 
@@ -199,6 +199,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     //driveSubsystem.unPark();
+    
   }
   private final CANSparkMax intakeNeo = new CANSparkMax(1, MotorType.kBrushless);
   

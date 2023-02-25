@@ -20,6 +20,7 @@ import frc.robot.commands.Autos.Auto;
 import frc.robot.commands.Autos.ChargeStationRedSideAuto;
 import frc.robot.commands.Autos.StraightLineAuto1;
 import frc.robot.commands.Autos.StraightLineRedToCargo4Auto;
+import frc.robot.commands.Autos.exampleAuto;
 import frc.robot.commands.Songs.GiornosTheme;
 import frc.robot.commands.Songs.ItsBeenSoLong;
 import frc.robot.commands.Songs.Megalovania;
@@ -59,6 +60,8 @@ public class RobotContainer {
   private final StraightLineAuto1 straightLineAuto1 = new StraightLineAuto1(driveSubsystem);
   private final StraightLineRedToCargo4Auto straightLineRedToCargo4Auto = new StraightLineRedToCargo4Auto(driveSubsystem);
   private final ChargeStationRedSideAuto chargeStationRedSideAuto = new ChargeStationRedSideAuto(driveSubsystem);
+  private final exampleAuto exampleAuto = new exampleAuto(driveSubsystem);
+  
 
   //Songs
   // private final ItsBeenSoLong itsBeenSoLong = new ItsBeenSoLong(driveSubsystem);
@@ -79,10 +82,11 @@ public class RobotContainer {
     // intakeSubsystem.setDefaultCommand(intakeCommand);
     configureBindings();
     //Auto Routines
-    chooser.setDefaultOption("Go forward and come back", chargeStationRedSideAuto);
+    chooser.setDefaultOption("Charge + Cube", auto);
     chooser.addOption("RED SIDE: Straight Line To Cargo 1 Auto", chargeStationRedSideAuto);
     chooser.addOption("RED SIDE: Straight Line To Cargo 4 Auto", chargeStationRedSideAuto);
     chooser.addOption("RED SIDE: Charge Station Auto", chargeStationRedSideAuto);
+    chooser.addOption("New Thingy", exampleAuto);
 
     //Songs
     // chooser.addOption("It's Been So Long by The Living Tombstone", itsBeenSoLong);

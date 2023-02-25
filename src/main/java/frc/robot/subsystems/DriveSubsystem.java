@@ -45,8 +45,6 @@ public class DriveSubsystem extends SubsystemBase {
   private Pose2d robotPose = new Pose2d(0, 0.0, Rotation2d.fromDegrees(0.0));
   private Translation2d offsetPose = new Translation2d(0.0, 0.0);
   
-  
-
   private final ShuffleboardTab mTab;
 
   private static final double maxVoltage = Constants.MAX_VOLTAGE;
@@ -55,11 +53,6 @@ public class DriveSubsystem extends SubsystemBase {
   private boolean halfSpeed = false;
 
   private Pigeon2 pigeon2 = new Pigeon2(Constants.pigeon2IMU, Constants.rickBot);
-
-  
-  
-
-  
   
   public DriveSubsystem() {
     mTab = Shuffleboard.getTab("Drivetrain");
@@ -129,8 +122,14 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void zeroGyroscope() {
-    pigeon2.zeroGyroBiasNow();
+    pigeon2.addYaw(0);
   }
+  public void endAuto(){
+    pigeon2.addYaw(0);
+  }
+//   public void resetOdometry(Pose2d pose) {
+//     odometry.resetPosition(pigeon2.getYaw(), pose);
+// }
 
   public Rotation2d getRotation() {
     return getPose().getRotation();
@@ -144,7 +143,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public Pose2d getPose(){
-    return new Pose2d(robotPose.getTranslation().minus(offsetPose), robotPose.getRotation());
+    return new Pose2d(robotPose.getTranslation().plus(offsetPose), robotPose.getRotation());
   }
   
   // public Pose2d getPose(){
@@ -197,6 +196,7 @@ public class DriveSubsystem extends SubsystemBase {
     rrm.set(-states[3].speedMetersPerSecond / maxVelocity * maxVoltage, states[3].angle.getRadians()); //Inverted the rear so that it moves correctly
     odometry.update(Rotation2d.fromDegrees(pigeon2.getYaw()), states);
     robotPose = odometry.getPoseMeters();
+
   }
 
   
